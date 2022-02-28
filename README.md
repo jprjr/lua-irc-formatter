@@ -2,8 +2,8 @@
 
 A simple formatter/serializer for IRC messages.
 
-It allows creating a formatter object with defaults values
-for your messages. You can then serialize your messages
+It allows creating a formatter object with default values
+for your messages. You can then serialize/format your messages
 and have your defaults merged in.
 
 For example, say you were building a bot that intends to
@@ -100,6 +100,24 @@ The full list of parameters is:
 * `command` - the only required parameter, the IRC Command.
 * `params` - an array-like table of parameters
 * `eol` - an end-of-line marker, like `\r\n`.
+
+## Installation
+
+### luarocks
+
+Available on [luarocks](https://luarocks.org/modules/jprjr/irc-formatter):
+
+```bash
+luarocks install irc-formatter
+```
+
+### OPM
+
+Available on [OPM](https://opm.openresty.org/package/jprjr/irc-formatter/)
+
+```bash
+opm install jprjr/irc-formatter
+```
 
 ## LICENSE
 
