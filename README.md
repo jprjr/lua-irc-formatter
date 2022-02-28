@@ -33,7 +33,7 @@ PRIVMSG #some-room :Hello there!
 If you provide some kind of invalid data, by default `:format()` will
 throw an error. You can check for this beforehand using `:validate()`:
 
-```
+```lua
 local formatter = require('irc-formatter').new({
   command = 'PRIVMSG',
   params = { '#some-room', 'param with spaces', 'another param with spaces' },
@@ -45,7 +45,7 @@ local ok, err = formatter:validate()
 You can also `:validate()` with a table, and the merged parameters
 will be tested:
 
-```
+```lua
 local formatter = require('irc-formatter').new({
   command = 'PRIVMSG',
   params = { '#some-room'},
