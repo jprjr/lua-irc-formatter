@@ -158,4 +158,49 @@ describe('irc-formatter', function()
       },
     }),result)
   end)
+
+  it('should handle empty strings in params', function()
+    local f = formatter.new({
+      command = '001',
+      params = { '' },
+    })
+    assert.is_equal('001 :',f:serialize())
+  end)
+
+  it('should convert non-strings commands to strings', function()
+    local f = formatter.new({
+      command = 300,
+    })
+    assert.is_equal('300',f:serialize())
+  end)
+
+  it('should convert commands < 100 to 3-digit strings', function()
+    local f = formatter.new({
+      command = 1,
+    })
+    assert.is_equal('001',f:serialize())
+  end)
+
+  it('should convert commands > 999 to 4-digit strings', function()
+    local f = formatter.new({
+      command = 1000,
+    })
+    assert.is_equal('1000',f:serialize())
+  end)
+
+  it('should reject non-integer, non-string commands', function()
+    local f = formatter.new({
+      command = true,
+    })
+    assert.has_error(function() f:serialize() end)
+  end)
+
+  it('should convert non-strings params to strings', function()
+    local f = formatter.new({
+      command = '001',
+      params = { true },
+    })
+    assert.is_equal('001 true',f:serialize())
+  end)
+
 end)

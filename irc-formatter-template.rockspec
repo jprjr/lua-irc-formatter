@@ -6,7 +6,7 @@ source = {
 }
 
 description = {
-  summary = "A library for parsing IRC lines",
+  summary = "A library for formatting IRC messages",
   homepage = "https://github.com/jprjr/lua-irc-formatter",
   license = "MIT"
 }

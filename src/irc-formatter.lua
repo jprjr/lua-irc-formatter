@@ -4,11 +4,15 @@ local concat = table.concat
 local find = string.find
 local byte = string.byte
 local gsub = string.gsub
+local len  = string.len
+local format = string.format
 
 local pairs = pairs
 local ipairs = ipairs
 local setmetatable = setmetatable
 local error = error
+local tostring = tostring
+local type = type
 
 local Formatter = {
   missing = setmetatable({},{
@@ -34,6 +38,11 @@ function Formatter._validate(t,f)
     return f('missing command')
   end
 
+  local ct = type(t.command)
+  if not (ct == 'number' or ct == 'string') then
+    return f('command must be number or string')
+  end
+
   if t.source then
     if t.source.user then
       if not t.source.nick then
@@ -51,6 +60,10 @@ function Formatter._validate(t,f)
 
         if find(p,' ',1,true) then
           return f('only the final param may contain a space')
+        end
+
+        if len(p) == 0 then
+          return f('only the final param may be empty')
         end
       end
     end
@@ -96,11 +109,21 @@ function Formatter._format(t)
     buf[#buf + 1] = ':' .. concat(source)
   end
 
-  buf[#buf + 1] = t.command
+  local ct = type(t.command)
+  if ct == 'number' then
+    local fstring = '%d'
+    if t.command < 100 then
+      fstring = '%03d'
+    end
+    buf[#buf + 1] = format(fstring,t.command)
+  else
+    buf[#buf + 1] = t.command
+  end
 
   if t.params then
     for _,p in ipairs(t.params) do
-      if byte(p,1) == 58 or find(p,' ',1,true) then
+      p = tostring(p)
+      if byte(p,1) == 58 or find(p,' ',1,true) or len(p) == 0 then
         buf[#buf + 1] = ':' .. p
         break
       else
@@ -198,7 +221,7 @@ end
 local module = setmetatable({
   new = new,
   missing = Formatter.missing,
-  _VERSION = '1.0.0',
+  _VERSION = '1.0.1',
 }, {
   __call = function(_,msg)
     return new(msg)
