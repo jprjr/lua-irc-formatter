@@ -121,9 +121,9 @@ function Formatter._format(t,force)
   end
 
   if t.params then
-    for _,p in ipairs(t.params) do
+    for i,p in ipairs(t.params) do
       p = tostring(p)
-      if force or byte(p,1) == 58 or find(p,' ',1,true) or len(p) == 0 then
+      if (i == #t.params and force) or byte(p,1) == 58 or find(p,' ',1,true) or len(p) == 0 then
         buf[#buf + 1] = ':' .. p
         break
       else
@@ -221,7 +221,7 @@ end
 local module = setmetatable({
   new = new,
   missing = Formatter.missing,
-  _VERSION = '1.1.0',
+  _VERSION = '1.1.1',
 }, {
   __call = function(_,msg)
     return new(msg)

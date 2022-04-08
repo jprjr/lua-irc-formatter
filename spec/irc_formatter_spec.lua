@@ -211,4 +211,12 @@ describe('irc-formatter', function()
     assert.is_equal('001 :simple',f:serialize(nil,true))
   end)
 
+  it('should only force a colon on the last param', function()
+    local f = formatter.new({
+      command = '001',
+      params = { 'simple', 'hello' },
+    })
+    assert.is_equal('001 simple :hello',f:serialize(nil,true))
+  end)
+
 end)
