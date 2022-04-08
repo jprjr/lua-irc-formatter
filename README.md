@@ -56,6 +56,25 @@ local ok, err = formatter:validate({
 })
 ```
 
+By default, if your final param doesn't require a colon, the generated
+string won't have one. You can opt-in to have the colon anyway, by passing
+something truthy as a second value:
+
+```lua
+local formatter = require('irc-formatter').new({
+  command = 'PRIVMSG',
+  params = { '#some-room' },
+})
+
+local str = formatter:serialize({
+  params = { 'hello' },
+, true)
+
+--[[ str is:
+PRIVMSG #some-room :hello
+]]
+```
+
 This will properly escape tags, too. There's also a dedicated
 type for generating "missing" tags (where there's no equals sign or value,
 just the tag name):

@@ -72,7 +72,7 @@ function Formatter._validate(t,f)
   return true
 end
 
-function Formatter._format(t)
+function Formatter._format(t,force)
   local buf = {}
   if t.tags then
     local tags = {}
@@ -123,7 +123,7 @@ function Formatter._format(t)
   if t.params then
     for _,p in ipairs(t.params) do
       p = tostring(p)
-      if byte(p,1) == 58 or find(p,' ',1,true) or len(p) == 0 then
+      if force or byte(p,1) == 58 or find(p,' ',1,true) or len(p) == 0 then
         buf[#buf + 1] = ':' .. p
         break
       else
@@ -189,10 +189,10 @@ local function merge(t1,t2)
   return t
 end
 
-function Formatter:serialize(tbl)
+function Formatter:serialize(tbl,force)
   local t = merge(self,tbl)
   Formatter._validate(t,error)
-  return Formatter._format(t)
+  return Formatter._format(t,force)
 end
 
 Formatter.format = Formatter.serialize
@@ -221,7 +221,7 @@ end
 local module = setmetatable({
   new = new,
   missing = Formatter.missing,
-  _VERSION = '1.0.1',
+  _VERSION = '1.1.0',
 }, {
   __call = function(_,msg)
     return new(msg)

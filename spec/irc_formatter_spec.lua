@@ -203,4 +203,12 @@ describe('irc-formatter', function()
     assert.is_equal('001 true',f:serialize())
   end)
 
+  it('should allow forcing a final colon when not required', function()
+    local f = formatter.new({
+      command = '001',
+      params = { 'simple' },
+    })
+    assert.is_equal('001 :simple',f:serialize(nil,true))
+  end)
+
 end)

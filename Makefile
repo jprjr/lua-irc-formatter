@@ -39,7 +39,7 @@ github-release:
 	source $(HOME)/.github-token && github-release release \
 	  --user jprjr \
 	  --repo lua-$(PACKAGE) \
-	  --tag v$(VERSION)
+	  --tag v$(VERSION) || true
 	source $(HOME)/.github-token && github-release upload \
 	  --user jprjr \
 	  --repo lua-$(PACKAGE) \
